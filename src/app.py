@@ -11,16 +11,29 @@ cache.init_app(app)
 
 
 @app.route('/weather', methods=['GET'])
-@cache.memoize(timeout=120)
 def get_weather():
     city = request.args.get('city', default='Bogota', type=str)
     country = request.args.get('country', default='CO', type=str)
     response = []
+    response.append(get_and_format_data(city, country))
+
+    return jsonify({'response_items': response}), 200
+
+
+@cache.memoize(timeout=120)
+def get_and_format_data(city, country):
+    """Func used for cache
+
+    Args:
+        city ([string])
+        country ([string]): Country Code
+
+    Returns:
+        [string]: json
+    """
     dataFromApi = QueryToApi(city, country)
     finalData = formatData(dataFromApi)
-    response.append(finalData)
-    print('se ejecuto')
-    return jsonify({'response_items': response}), 200
+    return finalData
 
 
 if __name__ == "__main__":
