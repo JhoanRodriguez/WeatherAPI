@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_caching import Cache
-from utilities.query_to_api import QueryToApi
-from utilities.format_data import formatData
+from utilities.queryToApi import query_to_api
+from utilities.formatData import format_data
 
 
 cache = Cache(config={'CACHE_TYPE': 'SimpleCache'})
@@ -17,7 +17,10 @@ def get_weather():
     response = []
     response.append(get_and_format_data(city, country))
 
-    return jsonify({'response_items': response}), 200
+    if 'message' in response[0]:
+        return jsonify({'Response': response[0]}), response[0]['cod']
+
+    return jsonify({'Response': response[0]}), 200
 
 
 @cache.memoize(timeout=120)
@@ -31,9 +34,12 @@ def get_and_format_data(city, country):
     Returns:
         [string]: json
     """
-    dataFromApi = QueryToApi(city, country)
-    finalData = formatData(dataFromApi)
-    return finalData
+    dataFromApi, status_code = query_to_api(city, country)
+    if status_code == 200:
+        finalData = format_data(dataFromApi)
+        return finalData
+
+    return dataFromApi
 
 
 if __name__ == "__main__":

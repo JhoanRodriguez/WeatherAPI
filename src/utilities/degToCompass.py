@@ -1,4 +1,4 @@
-def degToCompass(deg):
+def deg_to_compass(deg):
     """Func for the covertion of degrees into a directional compass
 
     Args:

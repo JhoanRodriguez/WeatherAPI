@@ -1,9 +1,9 @@
 import datetime
-from utilities.degToCompass import degToCompass
-from utilities.beaufort_scale import wind_beaufort_scale
+from utilities.degToCompass import deg_to_compass
+from utilities.beaufortScale import wind_beaufort_scale
 
 
-def formatData(data):
+def format_data(data):
     newData = {
         "location_name": "",
         "temperature": "",
@@ -20,7 +20,7 @@ def formatData(data):
     # Making the convertion of units and formats
     Name = f"{data['name']},{data['sys']['country']}"
     Temperature = f"{data['main']['temp'] - 273 :.2f} °C"
-    Wind = f"{wind_beaufort_scale(data['wind']['speed'])},{data['wind']['speed']} m/s, {degToCompass(data['wind']['deg'])}"
+    Wind = f"{wind_beaufort_scale(data['wind']['speed'])},{data['wind']['speed']} m/s, {deg_to_compass(data['wind']['deg'])}"
     Cloudiness = data['weather'][0]['description']
     Pressure = f"{data['main']['pressure']} hpa"
     Humidity = f"{data['main']['humidity']}%"

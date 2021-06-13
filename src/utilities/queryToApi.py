@@ -9,7 +9,7 @@ BASE_URL = os.environ['BASE_API_URL']
 appid = os.environ['API_KEY']
 
 
-def QueryToApi(city, country):
+def query_to_api(city, country):
     """
     Function for getting the data from the Weather API
 
@@ -22,5 +22,6 @@ def QueryToApi(city, country):
     """
     URL = BASE_URL + '/weather?q=' + city + ',' + country + '&appid=' + appid
     dataFromApi = requests.get(URL)
+    status_code = dataFromApi.status_code
     dataFromApi = json.loads(dataFromApi.text)
-    return dataFromApi
+    return dataFromApi, status_code
