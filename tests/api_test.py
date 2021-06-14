@@ -21,6 +21,12 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(r.status_code, 404)
         self.assertEqual(len(r.json()['Response']), 2)
 
+    def test_content_type(self):
+        r = requests.get(
+            'http://localhost:5000/weather?city=barranquilla&country=CO')
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.headers['Content-Type'], "application/json")
+
 
 if __name__ == '__main__':
     unittest.main()
