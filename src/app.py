@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_caching import Cache
+from flask_cors import CORS
 from utilities.queryToApi import query_to_api
 from utilities.formatData import format_data
 
@@ -8,6 +9,7 @@ cache = Cache(config={'CACHE_TYPE': 'SimpleCache'})
 
 app = Flask(__name__)
 cache.init_app(app)
+CORS(app)
 
 
 @app.route('/weather', methods=['GET'])
